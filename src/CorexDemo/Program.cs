@@ -19,4 +19,10 @@ namespace CorexDemo
         }
         public string Name { get; set; }
     }
+
+    class MyAppArgs
+    {
+        public string Command { get; set; }
+        public string Name { get; set; }
+    }
 }
