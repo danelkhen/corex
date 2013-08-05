@@ -10,6 +10,9 @@ namespace CorexDemo
 {
     class Program
     {
+
+
+
         static void foo()
         {
             FsPath xx = "C:\\";
