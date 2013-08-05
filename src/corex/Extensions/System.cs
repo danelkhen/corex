@@ -8,6 +8,20 @@ namespace System
 {
     public static class Extensions
     {
+        public static Uri CombineWith(this Uri uri, string relativeUrl)
+        {
+            return new Uri(uri, relativeUrl);
+        }
+        public static UriBuilder ToUriBuilder(this Uri uri)
+        {
+            return new UriBuilder(uri);
+        }
+        public static Uri SetPath(this Uri uri, string path)
+        {
+            var x = uri.ToUriBuilder();
+            x.Path = path;
+            return x.Uri;
+        }
         public static bool StartsAndEndsWith(this string s, string edge)
         {
             return s.StartsWith(edge) && s.EndsWith(edge);
