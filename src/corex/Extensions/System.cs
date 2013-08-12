@@ -8,6 +8,7 @@ namespace System
 {
     public static class Extensions
     {
+
         public static Uri CombineWith(this Uri uri, string relativeUrl)
         {
             return new Uri(uri, relativeUrl);
@@ -54,7 +55,15 @@ namespace System
         }
         public static string Quote(this string s)
         {
-            return new StringBuilder("\"").Append(s).Append("\"").ToString();
+            return s.Wrap("\"");
+        }
+        public static string Wrap(this string s, string prefixSuffix)
+        {
+            return s.Wrap(prefixSuffix, prefixSuffix);
+        }
+        public static string Wrap(this string s, string prefix, string suffix)
+        {
+            return new StringBuilder(prefix).Append(s).Append(suffix).ToString();
         }
         public static R IfNotNull<T, R>(this T obj, Func<T, R> func) where T : class
         {
@@ -64,23 +73,157 @@ namespace System
         }
 
 
-
-        public static string Format(this string format, params object[] args)
-        {
-            return String.Format(format, args);
-        }
-        public static string Format(this string format, object arg0)
+        //
+        // Summary:
+        //     Replaces one or more format items in a specified string with the string representation
+        //     of a specified object.
+        //
+        // Parameters:
+        //   format:
+        //     A composite format string (see Remarks).
+        //
+        //   arg0:
+        //     The object to format.
+        //
+        // Returns:
+        //     A copy of format in which any format items are replaced by the string representation
+        //     of arg0.
+        //
+        // Exceptions:
+        //   System.ArgumentNullException:
+        //     format is null.
+        //
+        //   System.FormatException:
+        //     The format item in format is invalid.-or- The index of a format item is not
+        //     zero.
+        public static string FormatWith(this string format, object arg0)
         {
             return String.Format(format, arg0);
         }
-        public static string Format(this string format, object arg0, object arg1)
+        //
+        // Summary:
+        //     Replaces the format item in a specified string with the string representation
+        //     of a corresponding object in a specified array.
+        //
+        // Parameters:
+        //   format:
+        //     A composite format string (see Remarks).
+        //
+        //   args:
+        //     An object array that contains zero or more objects to format.
+        //
+        // Returns:
+        //     A copy of format in which the format items have been replaced by the string
+        //     representation of the corresponding objects in args.
+        //
+        // Exceptions:
+        //   System.ArgumentNullException:
+        //     format or args is null.
+        //
+        //   System.FormatException:
+        //     format is invalid.-or- The index of a format item is less than zero, or greater
+        //     than or equal to the length of the args array.
+        public static string FormatWith(this string format, params object[] args)
+        {
+            return String.Format(format, args);
+        }
+
+        //
+        // Summary:
+        //     Replaces the format item in a specified string with the string representation
+        //     of a corresponding object in a specified array. A specified parameter supplies
+        //     culture-specific formatting information.
+        //
+        // Parameters:
+        //   provider:
+        //     An object that supplies culture-specific formatting information.
+        //
+        //   format:
+        //     A composite format string (see Remarks).
+        //
+        //   args:
+        //     An object array that contains zero or more objects to format.
+        //
+        // Returns:
+        //     A copy of format in which the format items have been replaced by the string
+        //     representation of the corresponding objects in args.
+        //
+        // Exceptions:
+        //   System.ArgumentNullException:
+        //     format or args is null.
+        //
+        //   System.FormatException:
+        //     format is invalid.-or- The index of a format item is less than zero, or greater
+        //     than or equal to the length of the args array.
+        public static string FormatWith(this IFormatProvider provider, string format, params object[] args)
+        {
+            return String.Format(format, provider, args);
+        }
+
+        //
+        // Summary:
+        //     Replaces the format items in a specified string with the string representation
+        //     of two specified objects.
+        //
+        // Parameters:
+        //   format:
+        //     A composite format string (see Remarks).
+        //
+        //   arg0:
+        //     The first object to format.
+        //
+        //   arg1:
+        //     The second object to format.
+        //
+        // Returns:
+        //     A copy of format in which format items are replaced by the string representations
+        //     of arg0 and arg1.
+        //
+        // Exceptions:
+        //   System.ArgumentNullException:
+        //     format is null.
+        //
+        //   System.FormatException:
+        //     format is invalid.-or- The index of a format item is not zero or one.
+        public static string FormatWith(this string format, object arg0, object arg1)
         {
             return String.Format(format, arg0, arg1);
         }
-        public static string Format(this string format, object arg0, object arg1, object arg2)
+
+        //
+        // Summary:
+        //     Replaces the format items in a specified string with the string representation
+        //     of three specified objects.
+        //
+        // Parameters:
+        //   format:
+        //     A composite format string (see Remarks).
+        //
+        //   arg0:
+        //     The first object to format.
+        //
+        //   arg1:
+        //     The second object to format.
+        //
+        //   arg2:
+        //     The third object to format.
+        //
+        // Returns:
+        //     A copy of format in which the format items have been replaced by the string
+        //     representations of arg0, arg1, and arg2.
+        //
+        // Exceptions:
+        //   System.ArgumentNullException:
+        //     format is null.
+        //
+        //   System.FormatException:
+        //     format is invalid.-or- The index of a format item is less than zero, or greater
+        //     than two.
+        public static string FormatWith(this string format, object arg0, object arg1, object arg2)
         {
             return String.Format(format, arg0, arg1, arg2);
         }
+
 
         public static T IfTrue<T>(this bool x, T value)
         {

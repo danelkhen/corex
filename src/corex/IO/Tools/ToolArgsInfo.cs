@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Corex.IO.Tools
 {
-    public class ToolArgsInfo<T> where T : new()
+    public class ToolArgsInfo<T> where T : class, new()
     {
         public T Parse(string[] args)
         {

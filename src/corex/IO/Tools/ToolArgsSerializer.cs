@@ -9,7 +9,7 @@ using System.Collections;
 
 namespace Corex.IO.Tools
 {
-    public class ToolArgsSerializer<T> where T : new()
+    public class ToolArgsSerializer<T> where T : class, new()
     {
         public ToolArgsSerializer()
         {

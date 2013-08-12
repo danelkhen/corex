@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 
@@ -84,6 +85,37 @@ namespace System.Collections.Generic
             return value;
         }
 
+        public static T TryGet<T>(this IList<T> list, int index)
+        {
+            if (index < 0 || index >= list.Count)
+                return default(T);
+            return list[index];
+        }
+        public static T GetOrFirstOrDefault<T>(this IList<T> list, int index)
+        {
+            if (index < 0 || index >= list.Count)
+                return list.FirstOrDefault();
+            return list[index];
+        }
+        public static T GetOrLastOrDefault<T>(this IList<T> list, int index)
+        {
+            if (index < 0 || index >= list.Count)
+                return list.LastOrDefault();
+            return list[index];
+        }
+        public static T GetOrFirst<T>(this IList<T> list, int index)
+        {
+            if (index < 0 || index >= list.Count)
+                return list.First();
+            return list[index];
+        }
+        public static T GetOrLast<T>(this IList<T> list, int index)
+        {
+            if (index < 0 || index >= list.Count)
+                return list.Last();
+            return list[index];
+        }
+
         public static T GetCreate<K, T>(this Dictionary<K, T> dic, K key) where T : class, new()
         {
             var value = dic.TryGetValue(key);
@@ -93,6 +125,14 @@ namespace System.Collections.Generic
                 dic[key] = value;
             }
             return value;
+        }
+
+        public static Dictionary<string, string> ToDictionary(this NameValueCollection list)
+        {
+            var dic = new Dictionary<string, string>();
+            foreach(string key in list.Keys)
+                dic.Add(key, list[key]);
+            return dic;
         }
 
 

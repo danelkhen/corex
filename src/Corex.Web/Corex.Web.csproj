@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D9E57C61-98F0-48A8-851C-3600209CBDBA}</ProjectGuid>
+    <ProjectGuid>{3DEBDCA0-BFCD-4B05-8470-9BCCE7DD6D1C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Corex</RootNamespace>
-    <AssemblyName>corex</AssemblyName>
+    <AssemblyName>Corex.Web</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -29,15 +29,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -45,37 +40,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Collections\Generic\CompositionList.cs" />
-    <Compile Include="Helpers\ParseHelper.cs" />
-    <Compile Include="Helpers\WindowsServiceHelper.cs" />
-    <Compile Include="IO\FsPath.cs" />
-    <Compile Include="Extensions\System.Collections.Generic.cs" />
-    <Compile Include="Extensions\System.cs" />
-    <Compile Include="Extensions\System.IO.cs" />
-    <Compile Include="Extensions\System.Linq.cs" />
-    <Compile Include="Extensions\System.Reflection.cs" />
-    <Compile Include="IO\Tools\Extensions.cs" />
-    <Compile Include="IO\Tools\ToolArgNode.cs" />
-    <Compile Include="IO\Tools\ToolArgsBuilder.cs" />
-    <Compile Include="IO\Tools\ToolArgsHelpGenerator.cs" />
-    <Compile Include="IO\Tools\ToolArgsInfo.cs" />
-    <Compile Include="IO\Tools\ToolArgsSerializer.cs" />
-    <Compile Include="IO\Tools\WindowsService\ScTool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reflection\InstanceProperty.cs" />
-    <Compile Include="Text\CodeWriter.cs" />
-    <Compile Include="Text\LineWriter.cs" />
-    <Compile Include="Text\LineWriterProxy.cs" />
-    <Compile Include="IO\Tools\Attributes.cs" />
-    <Compile Include="IO\Tools\Java\JavaTool.cs" />
-    <Compile Include="IO\Tools\Tool.cs" />
-    <Compile Include="IO\Tools\ToolArgsParser.cs" />
-    <Compile Include="IO\Tools\ToolArgsTokenizer.cs" />
+    <Compile Include="Web\Helpers\QueryStringBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="key.snk" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\corex\corex.csproj">
+      <Project>{d9e57c61-98f0-48a8-851c-3600209cbdba}</Project>
+      <Name>corex</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

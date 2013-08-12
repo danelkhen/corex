@@ -51,5 +51,26 @@ namespace Corex.IO.Tools
 
     }
 
+    public class Tool<T> where T : class, new()
+    {
+        public Tool()
+        {
+            InnerTool = new Tool();
+        }
+        public Tool InnerTool { get; set; }
+        public string Filename { get; set; }
+        public T Args { get; set; }
+        public Process Process { get; set; }
+        public void Run()
+        {
+            var ser = new ToolArgsSerializer<T>();
+            if(Args!=null)
+                InnerTool.Args = ser.Write(Args);
+            InnerTool.Filename = Filename;
+            InnerTool.Run();
+            Process = InnerTool.Process;
+
+        }
+    }
 
 }

@@ -15,15 +15,7 @@ namespace Corex.IO.Tools
         public string ValueQuotes { get; set; }
         public override string ToString()
         {
-            var sb = new StringBuilder();
-            sb.Append(Switch);
-            sb.Append(Name);
-            sb.Append(Seperator);
-            sb.Append(ValueQuotes);
-            sb.Append(Value);
-            sb.Append(ValueQuotes);
-
-            return String.Join("", Switch, Name, Seperator, ValueQuotes, Value, Value);
+            return String.Join("", Switch, Name, Seperator, ValueQuotes, Value, ValueQuotes);
         }
     }
 }
