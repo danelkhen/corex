@@ -14,6 +14,14 @@ namespace System.IO
         {
             return new FsPath(s);
         }
+        public static FileInfo ToFileInfo(this string s)
+        {
+            return new FileInfo(s);
+        }
+        public static DirectoryInfo ToDirectoryInfo(this string s)
+        {
+            return new DirectoryInfo(s);
+        }
 
 		public static DirectoryInfo GetParent(this FileSystemInfo element)
 		{
