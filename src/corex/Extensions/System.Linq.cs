@@ -220,6 +220,18 @@ namespace System.Linq
 
         #endregion
 
+        public static IEnumerable<IEnumerable<T>> SplitIntoChunks<T>(this IEnumerable<T> items, int chunkSize)
+        {
+            var current = items;
+            while(true)
+            {
+                var chunk = items.Take(chunkSize);
+                if (chunk.IsEmpty())
+                    yield break;
+                yield return chunk;
+                current = items.Skip(chunkSize);
+            }
+        }
 
 
     }
