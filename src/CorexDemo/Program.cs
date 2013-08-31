@@ -21,7 +21,7 @@ namespace CorexDemo
         }
         static void foo2()
         {
-            WindowsServiceHelper.CreateService(Process.GetCurrentProcess().MainModule.FileName);
+            //WindowsServiceHelper.CreateService(Process.GetCurrentProcess().MainModule.FileName);
         }
         static void Main(string[] args)
         {

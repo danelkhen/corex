@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Collections\Generic\CompositionList.cs" />
     <Compile Include="Helpers\ParseHelper.cs" />
+    <Compile Include="Helpers\ProcessHelper.cs" />
     <Compile Include="Helpers\WindowsServiceHelper.cs" />
     <Compile Include="IO\FsPath.cs" />
     <Compile Include="Extensions\System.Collections.Generic.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="IO\Tools\ToolArgsTokenizer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\System.Diagnostics.cs" />
     <None Include="key.snk" />
   </ItemGroup>
   <ItemGroup />

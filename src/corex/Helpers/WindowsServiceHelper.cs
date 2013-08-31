@@ -15,9 +15,8 @@ namespace Corex.Helpers
         {
             return new ToolArgsBuilder { SwitchSeparatorString = "= " };
         }
-        public static void CreateService(string binPath)
+        public static void CreateService(string serviceName, string binPath)
         {
-            var serviceName = binPath.ToFsPath().NameWithoutExtension;
             var tool = new Tool
             {
                 Filename = "sc.exe",
@@ -28,16 +27,39 @@ namespace Corex.Helpers
             };
             tool.Run();
         }
-        public static void DeleteService(string binPath)
+        public static void StartService(string serviceName)
         {
-            var serviceName = binPath.ToFsPath().NameWithoutExtension;
             var tool = new Tool
             {
                 Filename = "sc.exe",
                 Args = Build()
-                    .AddCommand("create")
+                    .AddCommand("start")
                     .AddCommand(serviceName)
-                    .AddOption("binPath", binPath).ToString(),
+                    .ToString(),
+            };
+            tool.Run();
+        }
+        public static void StopService(string serviceName)
+        {
+            var tool = new Tool
+            {
+                Filename = "sc.exe",
+                Args = Build()
+                    .AddCommand("stop")
+                    .AddCommand(serviceName)
+                    .ToString(),
+            };
+            tool.Run();
+        }
+        public static void DeleteService(string serviceName)
+        {
+            var tool = new Tool
+            {
+                Filename = "sc.exe",
+                Args = Build()
+                    .AddCommand("delete")
+                    .AddCommand(serviceName)
+                    .ToString(),
             };
             tool.Run();
 

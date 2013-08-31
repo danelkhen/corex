@@ -43,7 +43,17 @@ namespace Corex.IO.Tools
                 if (names.ContainsIgnoreCase(sw))
                     return pe;
             }
+            HandleError("Property not found for switch: " + sw);
             return null;
+        }
+
+        public Action<string> Error { get; set; }
+        void HandleError(string err)
+        {
+            if (Error != null)
+                Error(err);
+            else
+                throw new Exception(err);
         }
         public string[] GetSwitchNames(PropertyInfo pi)
         {

@@ -14,6 +14,10 @@ namespace System.IO
         {
             return new FsPath(s);
         }
+        public static void WriteAllText(this FileInfo file, string contents)
+        {
+            File.WriteAllText(file.FullName, contents);
+        }
         public static FileInfo ToFileInfo(this string s)
         {
             return new FileInfo(s);
@@ -36,14 +40,14 @@ namespace System.IO
 		}
 		public static DirectoryInfo GetExistingDirectory(this DirectoryInfo dir, string name)
 		{
-			var dir2 = new DirectoryInfo(dir.FullName + "\\" + name);
+			var dir2 = new DirectoryInfo(Path.Combine(dir.FullName, name));
 			if (dir2.Exists)
 				return dir2;
 			return null;
 		}
 		public static DirectoryInfo GetDirectory(this DirectoryInfo dir, string name)
 		{
-			return new DirectoryInfo(dir.FullName + "\\" + name);
+			return new DirectoryInfo(Path.Combine(dir.FullName,name));
 		}
 		public static DirectoryInfo GetCreateDirectory(this DirectoryInfo dir, string name)
 		{
@@ -55,7 +59,7 @@ namespace System.IO
 
 		public static FileInfo GetFile(this DirectoryInfo dir, string name)
 		{
-			return new FileInfo(dir.FullName + "\\" + name);
+			return new FileInfo(Path.Combine(dir.FullName + "\\" + name));
 		}
 
 		public static void CopyToDirectory(this FileInfo file, string dir)

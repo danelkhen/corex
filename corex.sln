@@ -7,6 +7,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CorexDemo", "src\CorexDemo\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Corex.Web", "src\Corex.Web\Corex.Web.csproj", "{3DEBDCA0-BFCD-4B05-8470-9BCCE7DD6D1C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Corex.Coding", "src\Corex.Coding\Corex.Coding.csproj", "{971FF2D9-2280-4E56-A81A-604F69A89093}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Corex.Coding.TypeScript", "src\Corex.Coding.TypeScript\Corex.Coding.TypeScript.csproj", "{F6BD2378-25FF-4D23-BD98-438AE706B462}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypeScriptParserTester", "src\testers\TypeScriptParserTester\TypeScriptParserTester.csproj", "{A6FD3083-BB66-4130-AE80-FF77BABE1F6A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "testers", "testers", "{E541D52B-B24C-40C0-903D-6F0FFC3750D1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,8 +33,24 @@ Global
 		{3DEBDCA0-BFCD-4B05-8470-9BCCE7DD6D1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DEBDCA0-BFCD-4B05-8470-9BCCE7DD6D1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3DEBDCA0-BFCD-4B05-8470-9BCCE7DD6D1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{971FF2D9-2280-4E56-A81A-604F69A89093}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{971FF2D9-2280-4E56-A81A-604F69A89093}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{971FF2D9-2280-4E56-A81A-604F69A89093}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{971FF2D9-2280-4E56-A81A-604F69A89093}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6BD2378-25FF-4D23-BD98-438AE706B462}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6BD2378-25FF-4D23-BD98-438AE706B462}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6BD2378-25FF-4D23-BD98-438AE706B462}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6BD2378-25FF-4D23-BD98-438AE706B462}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6FD3083-BB66-4130-AE80-FF77BABE1F6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6FD3083-BB66-4130-AE80-FF77BABE1F6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6FD3083-BB66-4130-AE80-FF77BABE1F6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6FD3083-BB66-4130-AE80-FF77BABE1F6A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A6FD3083-BB66-4130-AE80-FF77BABE1F6A} = {E541D52B-B24C-40C0-903D-6F0FFC3750D1}
+		{300F9C5D-ED7B-4409-9A79-2D18B7CF3E68} = {E541D52B-B24C-40C0-903D-6F0FFC3750D1}
 	EndGlobalSection
 EndGlobal

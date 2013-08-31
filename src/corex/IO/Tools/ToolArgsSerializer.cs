@@ -51,19 +51,16 @@ namespace Corex.IO.Tools
         }
         public void ReadInto(T obj, IEnumerable<ToolArgNode> nodes)
         {
-            var props = obj.InstanceProperties().ToList();
             foreach (var node in nodes)
             {
+                PropertyInfo pe;
                 if (node.Switch != null)
-                {
-                    var pe = ArgsInfo.GetPropBySwitchName(node.Name);
-                    SetValue(node, pe.ForInstance(obj));
-                }
+                    pe = ArgsInfo.GetPropBySwitchName(node.Name);
                 else
-                {
-                    var pe = ArgsInfo.CommandProperty;
-                    SetValue(node, pe.ForInstance(obj));
-                }
+                    pe = ArgsInfo.CommandProperty;
+                if (pe == null)
+                    continue;
+                SetValue(node, pe.ForInstance(obj));
             }
         }
 
