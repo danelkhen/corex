@@ -10,6 +10,33 @@ namespace System.IO
 
     public static class Extensions
 	{
+        public static IEnumerable<string> Lines(this FsPath path)
+        {
+            using (var reader = new StreamReader(path))
+            {
+                foreach (var line in reader.Lines())
+                    yield return line;
+            }
+        }
+        public static IEnumerable<string> Lines(this FileInfo file)
+        {
+            using (var reader = new StreamReader(file.FullName))
+            {
+                foreach (var line in reader.Lines())
+                    yield return line;
+            }
+        }
+        public static IEnumerable<string> Lines(this StreamReader reader)
+        {
+            while (true)
+            {
+                var line = reader.ReadLine();
+                if (line == null)
+                    yield break;
+                yield return line;
+            }
+
+        }
         public static FsPath ToFsPath(this string s)
         {
             return new FsPath(s);
@@ -25,6 +52,18 @@ namespace System.IO
         public static DirectoryInfo ToDirectoryInfo(this string s)
         {
             return new DirectoryInfo(s);
+        }
+
+        public static IEnumerable<DirectoryInfo> Parents(this FileSystemInfo element)
+        {
+            while (true)
+            {
+                var parent = element.GetParent();
+                if (parent == null)
+                    yield break;
+                yield return parent;
+                element = parent;
+            }
         }
 
 		public static DirectoryInfo GetParent(this FileSystemInfo element)
