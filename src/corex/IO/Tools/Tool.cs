@@ -44,7 +44,7 @@ namespace Corex.IO.Tools
             {
                 sb.Insert(0, "Exit code=" + Process.ExitCode + "\n");
                 var s = sb.ToString();
-                File.AppendAllText(@"c:\temp\Tool.log", s);
+                //File.AppendAllText(@"c:\temp\Tool.log", s);
                 throw new Exception(s);
             }
         }

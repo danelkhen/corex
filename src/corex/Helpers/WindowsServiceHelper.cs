@@ -15,7 +15,13 @@ namespace Corex.Helpers
         {
             return new ToolArgsBuilder { SwitchSeparatorString = "= " };
         }
-        public static void CreateService(string serviceName, string binPath)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="serviceName"></param>
+        /// <param name="binPath"></param>
+        /// <param name="start">start=boot, system, auto, demand, disabled Start type for the service. Option values include types used by drivers.(default = demand)</param>
+        public static void CreateService(string serviceName, string binPath, string start)
         {
             var tool = new Tool
             {
@@ -23,7 +29,10 @@ namespace Corex.Helpers
                 Args = Build()
                     .AddCommand("create")
                     .AddCommand(serviceName)
-                    .AddOption("binPath", binPath).ToString(),
+                    .AddOption("binPath", binPath)
+                    .AddOption("start", start)
+                    .ToString(),
+
             };
             tool.Run();
         }

@@ -18,6 +18,10 @@ namespace System.IO
                     yield return line;
             }
         }
+        public static string ReadAllText(this FileInfo file)
+        {
+            return File.ReadAllText(file.FullName);
+        }
         public static IEnumerable<string> Lines(this FileInfo file)
         {
             using (var reader = new StreamReader(file.FullName))

@@ -72,6 +72,8 @@
     <Compile Include="IO\Tools\Tool.cs" />
     <Compile Include="IO\Tools\ToolArgsParser.cs" />
     <Compile Include="IO\Tools\ToolArgsTokenizer.cs" />
+    <Compile Include="Threading\LockedThreadSafe.cs" />
+    <Compile Include="Threading\ReaderWriterLockThreadSafe.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\System.Diagnostics.cs" />
