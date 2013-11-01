@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collections\Generic\CompositionList.cs" />
+    <Compile Include="Helpers\FrameworkDetection.cs" />
     <Compile Include="Helpers\ParseHelper.cs" />
     <Compile Include="Helpers\ProcessHelper.cs" />
     <Compile Include="Helpers\WindowsServiceHelper.cs" />
