@@ -56,6 +56,8 @@ namespace Corex.Helpers
             list.Add(GetVersion("4", "4.0.30319.0", FrameworkVariant.Full));
             list.Add(GetVersion("4", "4.5.50709", FrameworkVariant.Client));
             list.Add(GetVersion("4", "4.5.50709", FrameworkVariant.Full));
+            list.Add(GetVersion("4", "4.5.50938", FrameworkVariant.Client));
+            list.Add(GetVersion("4", "4.5.50938", FrameworkVariant.Full));
             for (var i = list.Count - 1; i >= 0; i--)
             {
                 if (list[i] == null) list.RemoveAt(i);
