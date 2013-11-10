@@ -52,12 +52,10 @@ namespace Corex.Helpers
             list.Add(GetVersion("2.0.50727"));
             list.Add(GetVersion("3.0"));
             list.Add(GetVersion("3.5"));
-            list.Add(GetVersion("4", "4.0.30319.0", FrameworkVariant.Client));
-            list.Add(GetVersion("4", "4.0.30319.0", FrameworkVariant.Full));
-            list.Add(GetVersion("4", "4.5.50709", FrameworkVariant.Client));
-            list.Add(GetVersion("4", "4.5.50709", FrameworkVariant.Full));
-            list.Add(GetVersion("4", "4.5.50938", FrameworkVariant.Client));
-            list.Add(GetVersion("4", "4.5.50938", FrameworkVariant.Full));
+            list.Add(GetVersion("4", "4.0", FrameworkVariant.Client));
+            list.Add(GetVersion("4", "4.0", FrameworkVariant.Full));
+            list.Add(GetVersion("4", "4.5", FrameworkVariant.Client));
+            list.Add(GetVersion("4", "4.5", FrameworkVariant.Full));
             for (var i = list.Count - 1; i >= 0; i--)
             {
                 if (list[i] == null) list.RemoveAt(i);
@@ -91,10 +89,14 @@ namespace Corex.Helpers
             if (!GetInstalled(path)) return null;
 
             if (exactVersion != "")
-                if (exactVersion != GetExactVersion(path))
-                    return null;
-                else
+            {
+                var exactVer = new Version(exactVersion);
+                var regVer = new Version(GetExactVersion(path));
+                if (exactVer.Major == regVer.Major && exactVer.Minor == regVer.Minor)
                     version = new Version(exactVersion).ToString(2);
+                else
+                    return null;
+            }
 
             var sp = GetSP(path);
             var ver = new Version(version);
