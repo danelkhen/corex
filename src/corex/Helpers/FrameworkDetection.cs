@@ -37,7 +37,7 @@ namespace Corex.Helpers
         {
             get
             {
-                if (_Current == null) _Current = InstalledVersions[InstalledVersions.Count - 1];
+                if (_Current == null && InstalledVersions.Count != 0) _Current = InstalledVersions[InstalledVersions.Count - 1];
                 return _Current;
             }
         }
@@ -129,6 +129,7 @@ namespace Corex.Helpers
 
         public static bool HasVersionkOrBetter(FrameworkVersion other)
         {
+            if (Current == null) return false;
             return Current.CompareTo(other) >= 0;
         }
 
