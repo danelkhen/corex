@@ -60,6 +60,9 @@ namespace Corex.Helpers
             {
                 if (list[i] == null) list.RemoveAt(i);
             }
+            if (list.IsEmpty()) //Unknown version or unix
+                list.Add(new FrameworkVersion(Environment.Version, FrameworkVariant.Full)); //Hint: mono.net has only the "full" variant
+
             list.Sort();
             return list;
         }
