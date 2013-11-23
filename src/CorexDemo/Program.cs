@@ -19,6 +19,7 @@ namespace CorexDemo
             var xxx = xx + "abc" + "def\\";
 
         }
+		
         static void foo2()
         {
             //WindowsServiceHelper.CreateService(Process.GetCurrentProcess().MainModule.FileName);
