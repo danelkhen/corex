@@ -49,8 +49,8 @@ namespace Corex.IO.Tools.Java
         public void Run()
         {
             var sb = new StringBuilder();
-            if(MaxPermSize!=null)
-                sb.Append("-XX:MaxPermSize="+MaxPermSize+" ");
+            if (MaxPermSize != null)
+                sb.Append("-XX:MaxPermSize=" + MaxPermSize + " ");
             sb.Append("-classpath ");
             sb.Append(String.Join(";", ClassPath.ToArray()));
             sb.Append(" ");

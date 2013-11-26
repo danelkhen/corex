@@ -35,7 +35,7 @@ namespace Corex.Text
         }
         public void EndBlock(bool singleLine = false)
         {
-            if(Indent>0)
+            if (Indent > 0)
                 Indent--;
             if (singleLine)
                 Write("}");

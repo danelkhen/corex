@@ -19,12 +19,12 @@ namespace Corex.IO.Tools
         }
         public static List<ToolArgNode> AddSwitchOption(this List<ToolArgNode> list, string name, string value, string switchString = "/")
         {
-            list.Add(new ToolArgNode { Switch=switchString, Name = name, Value = value });
+            list.Add(new ToolArgNode { Switch = switchString, Name = name, Value = value });
             return list;
         }
-        public static List<ToolArgNode> AddOption(this List<ToolArgNode> list, string name, string value, string separatorString="=")
+        public static List<ToolArgNode> AddOption(this List<ToolArgNode> list, string name, string value, string separatorString = "=")
         {
-            list.Add(new ToolArgNode { Name = name, Value = value, Seperator=separatorString });
+            list.Add(new ToolArgNode { Name = name, Value = value, Seperator = separatorString });
             return list;
         }
         public static List<ToolArgNode> AddCommand(this List<ToolArgNode> list, string value)

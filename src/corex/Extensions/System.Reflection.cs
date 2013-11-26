@@ -10,14 +10,14 @@ using Corex.Reflection;
 namespace System.Reflection
 {
     public static partial class Extensions
-	{
+    {
         public static InstanceProperty<T> ForInstance<T>(this PropertyInfo pe, T obj)
         {
             return new InstanceProperty<T>(obj, pe);
         }
         public static IEnumerable<InstanceProperty<T>> ForInstance<T>(this IEnumerable<PropertyInfo> list, T obj)
         {
-            return list.Select(t=>t.ForInstance(obj));
+            return list.Select(t => t.ForInstance(obj));
         }
         public static IEnumerable<PropertyInfo> Properties<T>(this IEnumerable<InstanceProperty<T>> list, T obj)
         {
@@ -32,10 +32,10 @@ namespace System.Reflection
             return target.GetCustomAttributes(typeof(T), false).Cast<T>();
         }
 
-		public static T CustomAttribute<T>(this ICustomAttributeProvider target) where T : Attribute
-		{
+        public static T CustomAttribute<T>(this ICustomAttributeProvider target) where T : Attribute
+        {
             return target.CustomAttributes<T>().FirstOrDefault();
-		}
+        }
 
         public static InstanceProperty<T, R> InstancePropertyOf<T, R>(this T obj, Expression<Func<T, R>> prop)
         {

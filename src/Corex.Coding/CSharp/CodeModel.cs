@@ -71,16 +71,16 @@ namespace Corex.CodingTools.CSharp
         {
             foreach (var ce in GenericClasses)
             {
-                for(var i=0;i<args.Length;i++)
+                for (var i = 0; i < args.Length; i++)
                 {
                     var arg = args[i];
                     var arg2 = ce.GenericArguments[i];
-                    if(arg!=arg2)
+                    if (arg != arg2)
                         break;
                 }
                 return ce;
             }
-            var ce2 = new Class { Name = Name};
+            var ce2 = new Class { Name = Name };
             ce2.GenericArguments.AddRange(args);
             GenericClasses.Add(ce2);
 
@@ -116,8 +116,8 @@ namespace Corex.CodingTools.CSharp
         public override Member Clone2()
         {
             var x = base.Clone2() as Class;
-            x.Properties.AddRange(Properties.Select(t=>t.Clone()));
-            x.Methods.AddRange(Methods.Select(t=>t.Clone()));
+            x.Properties.AddRange(Properties.Select(t => t.Clone()));
+            x.Methods.AddRange(Methods.Select(t => t.Clone()));
             return x;
         }
     }
@@ -132,8 +132,8 @@ namespace Corex.CodingTools.CSharp
         {
             var x = base.Clone2() as Method;
             x.IsStatic = IsStatic;
-            x.Attributes.AddRange(Attributes.Select(t=>t.Clone()));
-            x.Parameters.AddRange(Parameters.Select(t=>t.Clone()));
+            x.Attributes.AddRange(Attributes.Select(t => t.Clone()));
+            x.Parameters.AddRange(Parameters.Select(t => t.Clone()));
             x.Summary = Summary;
             x.Remarks = Remarks;
             x.ReturnsSummary = ReturnsSummary;
