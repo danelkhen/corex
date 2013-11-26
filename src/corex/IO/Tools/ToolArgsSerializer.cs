@@ -25,7 +25,11 @@ namespace Corex.IO.Tools
             if (node.Value != null)
             {
                 if (pe.Property.PropertyType.Implements<IList>())
+                {
+                    if (pe.Value == null)
+                        pe.Value = Activator.CreateInstance(pe.Property.PropertyType);
                     ((IList)pe.Value).Add(node.Value);
+                }
                 else
                     pe.Value = node.Value;
             }
