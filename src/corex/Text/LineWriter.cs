@@ -47,7 +47,8 @@ namespace Corex.Text
         }
         public bool IsInNewLine()
         {
-            return String.IsNullOrWhiteSpace(CurrentLineBuffer.ToString());
+            
+            return CurrentLineBuffer.Length<30 && String.IsNullOrWhiteSpace(CurrentLineBuffer.ToString());
         }
 
         private void AppendTabs()
@@ -57,7 +58,7 @@ namespace Corex.Text
         }
         public void Close()
         {
-            if (!String.IsNullOrWhiteSpace(CurrentLineBuffer.ToString()))
+            if (!IsInNewLine())
                 FlushCurrentLineBuffer();
             InnerWriter.Close();
         }
@@ -122,6 +123,7 @@ namespace Corex.Text
         public void Flush()
         {
             FlushCurrentLineBuffer(false);
+            InnerWriter.Flush();
         }
         StringBuilder CurrentLineBuffer;
 
@@ -167,7 +169,7 @@ namespace Corex.Text
 
         public void Dispose()
         {
-            if (CurrentLineBuffer != null && !String.IsNullOrWhiteSpace(CurrentLineBuffer.ToString()))
+            if (CurrentLineBuffer != null && !IsInNewLine())
                 FlushCurrentLineBuffer();
             if (InnerWriter != null)
                 InnerWriter.Dispose();
