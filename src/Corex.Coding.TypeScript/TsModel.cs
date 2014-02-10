@@ -50,7 +50,7 @@ namespace TypeScriptParser
 
         public override string ToString()
         {
-            return String.Format("{0}({1})", Name, String.Join(", ", Parameters.Select(t=>t.Type + " "+t.Name).ToArray()));
+            return String.Format("{0}({1})", Name, String.Join(", ", Parameters.Select(t => t.Type + " " + t.Name).ToArray()));
         }
 
         public bool IsStatic { get; set; }
@@ -114,7 +114,7 @@ namespace TypeScriptParser
 
         public override string ToString()
         {
-            return Name+"."+Previous;
+            return Name + "." + Previous;
         }
     }
     class TsDelegateTypeRef : TsTypeRef

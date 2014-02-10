@@ -8,7 +8,7 @@ using System.Reflection;
 
 namespace Corex.IO.Tools
 {
-    public class ToolArgsHelpGenerator<T> where T:class, new()
+    public class ToolArgsHelpGenerator<T> where T : class, new()
     {
         public ToolArgsHelpGenerator(ToolArgsInfo<T> info)
         {

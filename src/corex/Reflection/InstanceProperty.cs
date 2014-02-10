@@ -49,7 +49,8 @@ namespace Corex.Reflection
     public class InstanceProperty<T> : InstanceProperty, IInstanceProperty<T>
     {
 
-        public InstanceProperty(T obj, PropertyInfo pi) : base(obj, pi)
+        public InstanceProperty(T obj, PropertyInfo pi)
+            : base(obj, pi)
         {
             Instance = obj;
         }
@@ -58,7 +59,8 @@ namespace Corex.Reflection
 
     public class InstanceProperty<T, V> : InstanceProperty<T>, IInstanceProperty<T, V>
     {
-        public InstanceProperty(T obj, PropertyInfo pi) : base(obj, pi)
+        public InstanceProperty(T obj, PropertyInfo pi)
+            : base(obj, pi)
         {
         }
         public new V Value

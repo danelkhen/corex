@@ -20,7 +20,7 @@ namespace System.Linq
         public static string StringJoin(this IEnumerable<string> list, string delim)
         {
             var sb = new StringBuilder();
-            list.ForEachJoin(t => sb.Append(t), ()=>sb.Append(delim));
+            list.ForEachJoin(t => sb.Append(t), () => sb.Append(delim));
             return sb.ToString();
         }
         public static int IndexOf<T>(this IEnumerable<T> list, Func<T, bool> func)
@@ -136,7 +136,7 @@ namespace System.Linq
             }
             if (last != null) last(prev);
         }
-        
+
         #region Linq
 
         class DelegatedEqualityComparer<T> : IEqualityComparer<T>
@@ -242,7 +242,7 @@ namespace System.Linq
         public static IEnumerable<IEnumerable<T>> SplitIntoChunks<T>(this IEnumerable<T> items, int chunkSize)
         {
             var current = items;
-            while(true)
+            while (true)
             {
                 var chunk = items.Take(chunkSize);
                 if (chunk.IsEmpty())

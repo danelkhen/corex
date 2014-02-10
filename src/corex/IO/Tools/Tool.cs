@@ -64,7 +64,7 @@ namespace Corex.IO.Tools
         public void Run()
         {
             var ser = new ToolArgsSerializer<T>();
-            if(Args!=null)
+            if (Args != null)
                 InnerTool.Args = ser.Write(Args);
             InnerTool.Filename = Filename;
             InnerTool.Run();

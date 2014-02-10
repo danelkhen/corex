@@ -130,7 +130,7 @@ namespace System.Collections.Generic
         public static Dictionary<string, string> ToDictionary(this NameValueCollection list)
         {
             var dic = new Dictionary<string, string>();
-            foreach(string key in list.Keys)
+            foreach (string key in list.Keys)
                 dic.Add(key, list[key]);
             return dic;
         }
