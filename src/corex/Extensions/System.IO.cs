@@ -102,7 +102,7 @@ namespace System.IO
 
         public static FileInfo GetFile(this DirectoryInfo dir, string name)
         {
-            return new FileInfo(Path.Combine(dir.FullName + "\\" + name));
+            return new FileInfo(Path.Combine(dir.FullNameWithTrailingSlash() + name));
         }
 
         public static void CopyToDirectory(this FileInfo file, string dir)
@@ -143,13 +143,24 @@ namespace System.IO
             return dirPath;
         }
 
+        static string VerifyTrailingSlash(string s)
+        {
+            if (s.LastOrDefault()!=Path.DirectorySeparatorChar)
+                return s + Path.DirectorySeparatorChar;
+            return s;
+        }
+        public static string FullNameWithTrailingSlash(this DirectoryInfo di)
+        {
+            return VerifyTrailingSlash(di.FullName);
+        }
         public static string CreateRelativePathTo(this DirectoryInfo dir, FileSystemInfo file)
         {
             if (dir.FullName.EqualsIgnoreCase(file.FullName))
                 return ".";
-            if (file.FullName.StartsWith(dir.FullName, StringComparison.InvariantCultureIgnoreCase))
+            var dirFullName = VerifyTrailingSlash(dir.FullName);
+            if (file.FullName.StartsWith(dir.FullNameWithTrailingSlash(), StringComparison.InvariantCultureIgnoreCase))
             {
-                return file.FullName.ReplaceFirst(dir.FullName + "\\", "", StringComparison.InvariantCultureIgnoreCase);
+                return file.FullName.ReplaceFirst(dir.FullNameWithTrailingSlash(), "", StringComparison.InvariantCultureIgnoreCase);
             }
             else
             {
@@ -186,8 +197,15 @@ namespace System.IO
                 Transform(dir, searchPattern, searchOption, targetDir, CopyTransformer);
         }
 
+        public static DirectoryInfo VerifyExists(this DirectoryInfo dir)
+        {
+            if (!dir.Exists)
+                dir.Create();
+            return dir;
+        }
         static void CopyWithOverwriteTransformer(FileInfo source, FileInfo target)
         {
+            target.Directory.VerifyExists();
             source.CopyTo(target.FullName, true);
         }
         static void CopyTransformer(FileInfo source, FileInfo target)
