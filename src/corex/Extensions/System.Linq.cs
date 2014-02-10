@@ -84,6 +84,25 @@ namespace System.Linq
             foreach (T item in items)
                 action(item);
         }
+        [DebuggerStepThrough]
+        public static void ForEach<T>(this IEnumerable<T> items, Action<int, T> action)
+        {
+            var i = 0;
+            foreach (T item in items)
+            { 
+                action(i, item);
+                i++;
+            }
+        }
+        //[DebuggerStepThrough]
+        //public static IEnumerable<Tuple<int, T>> WithIndex<T>(this IEnumerable<T> list)
+        //{
+        //    var i = 0;
+        //    foreach (T item in list)
+        //    {
+        //        yield return Tuple.Create(i, item);
+        //    }
+        //}
         public static void ForEachJoin<T>(this IEnumerable<T> items, Action<T> action, Action actionBetweenItems)
         {
             var first = true;
