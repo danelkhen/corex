@@ -17,7 +17,7 @@ namespace System.Linq
             return String.Concat(list);
         }
         [DebuggerStepThrough]
-        public static string StringJoin(this IEnumerable<string> list, string delim)
+        public static string StringJoin<T>(this IEnumerable<T> list, string delim)
         {
             var sb = new StringBuilder();
             list.ForEachJoin(t => sb.Append(t), () => sb.Append(delim));
