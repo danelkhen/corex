@@ -102,7 +102,7 @@ namespace System.IO
 
         public static FileInfo GetFile(this DirectoryInfo dir, string name)
         {
-            return new FileInfo(Path.Combine(dir.FullName + "\\" + name));
+            return new FileInfo(Path.Combine(dir.FullNameWithTrailingSlash() + name));
         }
 
         public static void CopyToDirectory(this FileInfo file, string dir)
@@ -143,13 +143,24 @@ namespace System.IO
             return dirPath;
         }
 
+        static string VerifyTrailingSlash(string s)
+        {
+            if (s.LastOrDefault() != Path.DirectorySeparatorChar)
+                return s + Path.DirectorySeparatorChar;
+            return s;
+        }
+        public static string FullNameWithTrailingSlash(this DirectoryInfo di)
+        {
+            return VerifyTrailingSlash(di.FullName);
+        }
         public static string CreateRelativePathTo(this DirectoryInfo dir, FileSystemInfo file)
         {
             if (dir.FullName.EqualsIgnoreCase(file.FullName))
                 return ".";
-            if (file.FullName.StartsWith(dir.FullName, StringComparison.InvariantCultureIgnoreCase))
+            var dirFullName = VerifyTrailingSlash(dir.FullName);
+            if (file.FullName.StartsWith(dir.FullNameWithTrailingSlash(), StringComparison.InvariantCultureIgnoreCase))
             {
-                return file.FullName.ReplaceFirst(dir.FullName + "\\", "", StringComparison.InvariantCultureIgnoreCase);
+                return file.FullName.ReplaceFirst(dir.FullNameWithTrailingSlash(), "", StringComparison.InvariantCultureIgnoreCase);
             }
             else
             {
@@ -178,21 +189,28 @@ namespace System.IO
             }
         }
 
+        [Obsolete]
         public static void Copy(this DirectoryInfo dir, string searchPattern, SearchOption searchOption, DirectoryInfo targetDir, bool overwrite)
         {
-            if (overwrite)
-                Transform(dir, searchPattern, searchOption, targetDir, CopyWithOverwriteTransformer);
-            else
-                Transform(dir, searchPattern, searchOption, targetDir, CopyTransformer);
+            Copy(dir, searchPattern, searchOption==SearchOption.AllDirectories, targetDir, overwrite, false, null);
+        }
+        public static void Copy(this DirectoryInfo dir, string searchPattern, bool recursive, DirectoryInfo targetDir, bool overwrite, bool skipHiddenDirectories, Func<FileInfo, bool> includeFile)
+        {
+            var files = dir.GetFiles(searchPattern, recursive, skipHiddenDirectories);
+            if (includeFile != null)
+                files = files.Where(includeFile);
+            files.Transform(dir, targetDir, (source, target) =>
+                {
+                    target.Directory.VerifyExists();
+                    source.CopyTo(target.FullName, overwrite);
+                });
         }
 
-        static void CopyWithOverwriteTransformer(FileInfo source, FileInfo target)
+        public static DirectoryInfo VerifyExists(this DirectoryInfo dir)
         {
-            source.CopyTo(target.FullName, true);
-        }
-        static void CopyTransformer(FileInfo source, FileInfo target)
-        {
-            source.CopyTo(target.FullName);
+            if (!dir.Exists)
+                dir.Create();
+            return dir;
         }
 
         [Obsolete("Use the other one instead")]
@@ -220,6 +238,39 @@ namespace System.IO
                 var relFile = dir.CreateRelativePathTo(file);
                 var finalTargetFile = targetDir.GetFile(relFile);
                 transformer(file, finalTargetFile);
+            }
+        }
+        public static void Transform(this IEnumerable<FileInfo> files, DirectoryInfo baseDir, DirectoryInfo targetDir, Action<FileInfo, FileInfo> transformer)
+        {
+            foreach (var file in files)
+            {
+                var relFile = baseDir.CreateRelativePathTo(file);
+                var finalTargetFile = targetDir.GetFile(relFile);
+                transformer(file, finalTargetFile);
+            }
+        }
+        public static IEnumerable<FileInfo> GetFiles(this DirectoryInfo dir, string searchPattern, bool recursive, bool skipHiddenDirs)
+        {
+            if (!recursive)
+                return dir.GetFiles(searchPattern);
+            Func<DirectoryInfo, bool> includeDir = null;
+            if (skipHiddenDirs)
+                includeDir = t => !t.Attributes.HasFlag(FileAttributes.Hidden);
+            return GetFilesRecursive(dir, searchPattern, includeDir);
+        }
+        public static IEnumerable<FileInfo> GetFilesRecursive(this DirectoryInfo dir, string searchPattern, Func<DirectoryInfo, bool> includeDir)
+        {
+            var files = dir.GetFiles(searchPattern);
+            foreach (var file in files)
+                yield return file;
+            var dirs = dir.GetDirectories();
+            foreach (var dir2 in dirs)
+            {
+                if (includeDir != null && !includeDir(dir2))
+                    continue;
+                var files2 = GetFilesRecursive(dir2, searchPattern, includeDir);
+                foreach (var file in files2)
+                    yield return file;
             }
         }
 
