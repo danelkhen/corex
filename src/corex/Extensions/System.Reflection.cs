@@ -48,5 +48,17 @@ namespace System.Reflection
                 yield return new InstanceProperty<T>(obj, pi);
             }
         }
+
+        public static Type GetEnumerableItemType(this Type type)
+        {
+            var iface = type.GetInterface("System.Collections.Generic.IEnumerable`1");
+            if (iface != null)
+            {
+                var args = iface.GetGenericArguments();
+                return args[0];
+            }
+            return null;
+        }
+
     }
 }

@@ -134,6 +134,13 @@ namespace System.Collections.Generic
                 dic.Add(key, list[key]);
             return dic;
         }
+        
+        public static T PeekOrDefault<T>(this Stack<T> list)
+        {
+            if (list.Count == 0)
+                return default(T);
+            return list.Peek();
+        }
 
 
     }
