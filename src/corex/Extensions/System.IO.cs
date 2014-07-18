@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Corex.IO;
+using System.Reflection;
 
 namespace System.IO
 {
@@ -275,6 +276,16 @@ namespace System.IO
         }
 
 
+        static Extensions()
+        {
+            OriginalPathField = typeof(FileSystemInfo).GetField("OriginalPath", Reflection.BindingFlags.NonPublic | Reflection.BindingFlags.Instance);
+        }
+        static FieldInfo OriginalPathField;
+
+        public static string GetOriginalPath(this FileSystemInfo f)
+        {
+            return OriginalPathField.GetValue(f) as string;
+        }
         public static bool IsHidden(this FileInfo file)
         {
             return file.Attributes.HasFlag(FileAttributes.Hidden);
