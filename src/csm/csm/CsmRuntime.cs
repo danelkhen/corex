@@ -9,13 +9,13 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace csm
+namespace Csm
 {
     public static class CsmExtensions
     {
         public static void ExecuteAsCsmFile(this string filename)
         {
-            var csm = new CsmHelper { CsFile = filename.ToFileInfo() };
+            var csm = new CsmRuntime { Scripts = { new CsmScript { File = filename.ToFileInfo() } } };
             csm.Run();
         }
         public static void ExecuteAsCsmScript(this string script)
@@ -24,13 +24,31 @@ namespace csm
         }
     }
 
-    public class CsmHelper
+    public class CsmRuntime
     {
+        public DirectoryInfo TempDir { get; set; }
+        public FileInfo ExeFile { get; set; }
+        public Assembly LoadedExe { get; set; }
+        public string MainScriptName { get; set; }
+        public List<CsmScript> Scripts { get; set; }
 
-        public List<string> OneLines { get; set; }
+        public CsmRuntime()
+        {
+            Scripts = new List<CsmScript>();
+        }
+        
+        public static void Init()
+        {
+            if (Current != null)
+                return;
+            Current = new CsmRuntime();
+        }
+        
+        public static CsmRuntime Current { get; set; }
 
         public void Run()
         {
+            VerifyMainScriptName();
             LoadCsFile();
             CreateTempDir();
             AllocateExeFile();
@@ -45,29 +63,41 @@ namespace csm
             Scripts.ForEach(t => t.Text = FixScript(t.Text));
         }
 
-        private void AllocateExeFile()
+        void VerifyMainScriptName()
         {
-            ExeFile = TempDir.GetFile(Path.GetTempFileName().ToFileInfo().Name);
-            if(CsFile!=null)
-                ExeFile = TempDir.GetFile(CsFile.GetNameWithoutExtension() + ".exe");
+            if (MainScriptName.IsNotNullOrEmpty())
+                return;
+            var csFile = Scripts.FirstOrDefault(t => t.File != null);
+            if (csFile != null)
+            {
+                MainScriptName = csFile.File.GetNameWithoutExtension();
+            }
+            else
+            {
+                MainScriptName = Path.GetTempFileName().ToFileInfo().GetNameWithoutExtension();
+            }
+
+        }
+        void AllocateExeFile()
+        {
+            VerifyMainScriptName();
+            ExeFile = TempDir.GetFile(MainScriptName + ".exe");
         }
 
-        private void CreateTempDir()
+        void CreateTempDir()
         {
-            var tempFile = Path.GetTempFileName().ToFileInfo();
-            TempDir = Environment.ExpandEnvironmentVariables("%temp%").ToDirectoryInfo().GetDirectory(tempFile.GetNameWithoutExtension());
-            TempDir.VerifyExists();
+            TempDir = ProcessHelper.CurrentProcessFile.GetParent().GetDirectory("temp").GetDirectory(DateTime.Now.ToFileTime().ToString()).VerifyExists();
         }
 
-        private void LoadCsFile()
+        void LoadCsFile()
         {
-            if (OneLines != null)
-                OneLines.ForEach(t => Scripts.Add(new Script { File = t.SaveAsTempFile().ToFileInfo(), Text = t }));
-            if(CsFile!=null)
-                Scripts.Add(new Script { File = CsFile, Text = CsFile.ReadAllText() });
+            Scripts.ForEach(t =>
+                {
+                    if (t.File != null && t.Text == null && t.File.Exists)
+                        t.Text = File.ReadAllText(t.File.FullName);
+                });
         }
-        Assembly LoadedExe;
-        private void LoadExeIntoCurrentProcess()
+        void LoadExeIntoCurrentProcess()
         {
             LoadedExe = Assembly.LoadFrom(ExeFile.FullName);
             if (LoadedExe.EntryPoint != null)
@@ -83,11 +113,15 @@ namespace csm
             }
         }
 
-        private void Compile()
+        void Compile()
         {
             var files = Scripts.Select(t =>
             {
-                var file2 = TempDir.GetFile(t.File.Name);
+                FileInfo file2;
+                if (t.File != null)
+                    file2 = TempDir.GetFile(t.File.Name);
+                else
+                    file2 = TempDir.GetFile(Path.GetTempFileName().ToFileInfo().Name);
                 file2.WriteAllText(t.Text);
                 return file2;
             });
@@ -104,14 +138,19 @@ namespace csm
             var p = csc.ToProcess(args).Execute(output);
             if (p.ExitCode != 0)
             {
-                throw new Exception("Script compilation failed for " + Scripts.Select(t => t.File.GetOriginalPath()).StringJoin(",") + "\n" + output.ToString());
+                throw new Exception("Script compilation failed for " + Scripts.Select(ScriptToErrorText).StringJoin(",") + "\n" + output.ToString());
             }
+        }
+        static string ScriptToErrorText(CsmScript f)
+        {
+            if (f.File != null)
+                return f.File.GetOriginalPath();
+            return "Dynamic Script: " + f.Text;
         }
         static string Quote(string s)
         {
             return "\"" + s + "\"";
         }
-        List<Script> Scripts = new List<Script>();
 
         string FixScript(string code)
         {
@@ -122,13 +161,18 @@ namespace csm
             var addUsings = false;
             var addClass = false;
             var addMain = false;
-
+            var addNamespace = false;
             if (firstLine.StartsWith("using"))
             {
             }
-            else if (new[] { "class ", "namespace " }.FirstOrDefault(t => firstLine.Contains(t)) != null)
+            else if (new[] { "namespace " }.FirstOrDefault(t => firstLine.Contains(t)) != null)
             {
                 addUsings = true;
+            }
+            else if (new[] { "class " }.FirstOrDefault(t => firstLine.Contains(t)) != null)
+            {
+                addUsings = true;
+                addNamespace = true;
             }
             else if (new[] { "void ", "int ", "static ", "public ", "private ", "protected ", "internal " }.FirstOrDefault(t => code.StartsWith(t)) != null)
             {
@@ -145,7 +189,7 @@ namespace csm
             if (addUsings)
             {
                 prefix.WriteLine("using Corex.Helpers;");
-                prefix.WriteLine("using csm;");
+                prefix.WriteLine("using Csm;");
                 prefix.WriteLine("using System;");
                 prefix.WriteLine("using System.Collections.Generic;");
                 prefix.WriteLine("using System.Diagnostics;");
@@ -154,6 +198,11 @@ namespace csm
                 prefix.WriteLine("using System.Text;");
                 prefix.WriteLine("using System.Threading.Tasks;");
 
+            }
+            if (addNamespace)
+            {
+                prefix.WriteLine("namespace Csm.Scripts {");
+                suffix.WriteLine("}");
             }
             if (addClass)
             {
@@ -174,11 +223,17 @@ namespace csm
             return p1 + code + p2;
         }
 
-        public FileInfo CsFile { get; set; }
-
-        public DirectoryInfo TempDir { get; set; }
-
-        public FileInfo ExeFile { get; set; }
 
     }
+
+
+    //public class CsmCompilation
+    //{
+    //    public DirectoryInfo TempDir { get; set; }
+    //    public FileInfo ExeFile { get; set; }
+    //    public Assembly LoadedExe { get; set; }
+    //    public string MainScriptName { get; set; }
+    //    public List<CsmScript> Scripts { get; set; }
+
+    //}
 }

@@ -284,6 +284,8 @@ namespace System.IO
 
         public static string GetOriginalPath(this FileSystemInfo f)
         {
+            if (f == null)
+                throw new NullReferenceException("f");
             return OriginalPathField.GetValue(f) as string;
         }
         public static bool IsHidden(this FileInfo file)

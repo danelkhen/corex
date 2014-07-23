@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace csm
+namespace Csm.Scripts
 {
-    class Script
+    public class __Placeholder__
     {
-        public string Text { get; set; }
-        public FileInfo File { get; set; }
     }
 }

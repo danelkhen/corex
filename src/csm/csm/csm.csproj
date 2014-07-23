@@ -7,7 +7,7 @@
     <ProjectGuid>{23BCBC55-B620-4C1C-9C71-C753BA63BA18}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>csm</RootNamespace>
+    <RootNamespace>Csm</RootNamespace>
     <AssemblyName>csm</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -46,11 +46,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ProcessExtensions.cs" />
-    <Compile Include="CsmHelper.cs" />
+    <Compile Include="CsmRuntime.cs" />
     <Compile Include="Extender.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Script.cs" />
+    <Compile Include="CsmScript.cs" />
+    <Compile Include="Scripts\__Placeholder__.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
