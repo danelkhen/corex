@@ -45,6 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CsmCompilation.cs" />
+    <Compile Include="CsmExtensions.cs" />
     <Compile Include="ProcessExtensions.cs" />
     <Compile Include="CsmRuntime.cs" />
     <Compile Include="Extender.cs" />

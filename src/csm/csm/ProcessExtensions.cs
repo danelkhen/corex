@@ -83,9 +83,4 @@ namespace Csm
     }
 
 
-    public class ProcessRun
-    {
-        public Process Process { get; set; }
-        public StringBuilder OutputAndError { get; set; }
-    }
 }

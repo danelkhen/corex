@@ -10,7 +10,8 @@ namespace Csm
 {
     public class CsmScript
     {
-        public string Text { get; set; }
+        public string Code { get; set; }
+        public string FinalCode { get; set; }
         public FileInfo File { get; set; }
     }
 }
