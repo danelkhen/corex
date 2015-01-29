@@ -28,6 +28,8 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\corex.xml</DocumentationFile>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -78,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\System.Diagnostics.cs" />
+    <None Include="corex.nuspec" />
     <None Include="key.snk" />
   </ItemGroup>
   <ItemGroup />
