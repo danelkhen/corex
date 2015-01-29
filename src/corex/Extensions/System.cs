@@ -8,6 +8,10 @@ namespace System
 {
     public static class Extensions
     {
+        public static string[] Split(this string s, string separator)
+        {
+            return s.Split(new []{separator}, StringSplitOptions.None);
+        }
 
         public static Uri CombineWith(this Uri uri, string relativeUrl)
         {

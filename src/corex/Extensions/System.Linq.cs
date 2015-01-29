@@ -84,16 +84,16 @@ namespace System.Linq
             foreach (T item in items)
                 action(item);
         }
-        [DebuggerStepThrough]
-        public static void ForEach<T>(this IEnumerable<T> items, Action<int, T> action)
-        {
-            var i = 0;
-            foreach (T item in items)
-            { 
-                action(i, item);
-                i++;
-            }
-        }
+        //[DebuggerStepThrough]
+        //public static void ForEach<T>(this IEnumerable<T> items, Action<int, T> action)
+        //{
+        //    var i = 0;
+        //    foreach (T item in items)
+        //    { 
+        //        action(i, item);
+        //        i++;
+        //    }
+        //}
         //[DebuggerStepThrough]
         //public static IEnumerable<Tuple<int, T>> WithIndex<T>(this IEnumerable<T> list)
         //{

@@ -50,6 +50,14 @@ namespace System.IO
         {
             File.WriteAllText(file.FullName, contents);
         }
+        public static void WriteAllLinesTo(this IEnumerable<string> lines, string filename)
+        {
+            File.WriteAllLines(filename, lines);
+        }
+        public static void WriteAllLinesTo(this IEnumerable<string> lines, FileInfo file)
+        {
+            File.WriteAllLines(file.FullName, lines);
+        }
         public static FileInfo ToFileInfo(this string s)
         {
             return new FileInfo(s);
@@ -297,6 +305,18 @@ namespace System.IO
         //    file.Attributes = FlagsHelper.SetOnOrOff(file.Attributes, FileAttributes.Hidden, hidden);
         //}
 
+        public static void Rename(this FileInfo file, FileInfo newFile)
+        {
+            file.MoveTo(newFile.FullName);
+        }
+        public static FileInfo[] GetFiles(this DirectoryInfo dir, bool recursive)
+        {
+            return dir.GetFiles("*", recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
+        }
+        public static FileSystemInfo[] GetFileSystemInfos(this DirectoryInfo dir, bool recursive)
+        {
+            return dir.GetFileSystemInfos("*", recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
+        }
 
     }
 }
