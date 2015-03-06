@@ -318,5 +318,13 @@ namespace System.IO
             return dir.GetFileSystemInfos("*", recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
         }
 
+        public static string ReadToEnd(this Stream stream)
+        {
+            using (var reader = new StreamReader(stream))
+            {
+                return reader.ReadToEnd();
+            }
+        }
+
     }
 }
